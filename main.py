@@ -2,13 +2,8 @@ import util
 import engine
 import ui
 
-PLAYER_ICON = '@'
-PLAYER_START_X = 3
-PLAYER_START_Y = 3
-
-BOARD_WIDTH = 30
-BOARD_HEIGHT = 20
-
+width = 20
+height = 20
 
 def create_player():
     '''
@@ -18,12 +13,17 @@ def create_player():
     Returns:
     dictionary
     '''
-    pass
+    player = {
+        "player_icon" : "@",
+        "player_start_x" : 1,
+        "player_start_y" : 1,
+        "player_health" : 5}
+    return player
 
 
 def main():
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_board(width, height)
 
     util.clear_screen()
     is_running = True

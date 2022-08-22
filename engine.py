@@ -16,9 +16,7 @@ def create_board(width, height):
         board[i][0] = '#'
         board[0][i] = '#'    
     return board
-
-
-
+  
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
@@ -29,5 +27,6 @@ def put_player_on_board(board, player):
 
     Returns:
     Nothing
-    '''
-    pass
+    '''      
+    board[player["player_start_x"]][player["player_start_y"]] = player["player_icon"]
+    return board
