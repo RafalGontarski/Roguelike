@@ -29,5 +29,6 @@ def put_player_on_board(board, player):
 
     Returns:
     Nothing
-    '''
-    pass
+    '''      
+    board[player["player_start_x"]][player["player_start_y"]] = player["player_icon"]
+    return board
