@@ -1,3 +1,4 @@
+from time import sleep
 import util
 import engine
 import ui
@@ -16,7 +17,7 @@ def create_player():
 def main():
     player = create_player()
     board = engine.create_board(width, height)
-
+    items = ['*', '/', '^', '$']
     util.clear_screen()
     is_running = True
     while is_running:
@@ -25,8 +26,9 @@ def main():
         engine.remove_player_from_board(board, player)
 
         key = util.key_pressed()
-        engine.player_movement(key, board, player)
-    
+        field = engine.player_movement(key, board, player)
+        if field in items:
+            pass
         util.clear_screen()
 
 

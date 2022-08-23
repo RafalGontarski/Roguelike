@@ -1,3 +1,6 @@
+from time import sleep
+
+
 def create_board(width, height):
     board = [[' ' for x in range(height)] for y in range(width)]
     for i in range(len(board)):
@@ -7,7 +10,8 @@ def create_board(width, height):
         board[0][i] = '#'    
     return board
 
-    
+def eat_bread():
+    pass
 
 def put_player_on_board(board, player):
     board[player["y"]][player["x"]] = player["player_icon"]
@@ -17,6 +21,8 @@ def remove_player_from_board(board, player):
     board[player['y']][player['x']] = ' '
 
 def player_movement(key, board, player):
+    fields = ['*', '/', '^', '$']
+    
     if key == 'q':
         exit()
     if key == 'i':
@@ -24,12 +30,20 @@ def player_movement(key, board, player):
     elif key == 'w':
         if board[player['y']-1][player['x']] != '#':
             player['y'] -= 1
+            if board[player['y']][player['x']] in fields:
+                return board[player['y']][player['x']]                
     elif key == 's':
         if board[player['y']+1][player['x']] != '#':
             player['y'] += 1
+            if board[player['y']][player['x']] in fields:
+                return board[player['y']][player['x']]
     elif key == 'a':
         if board[player['y']][player['x']-1] != '#':
             player['x'] -= 1
+            if board[player['y']][player['x']] in fields:
+                return board[player['y']][player['x']]
     elif key == 'd':
         if board[player['y']][player['x']+1] != '#':
             player['x'] += 1
+            if board[player['y']][player['x']] in fields:
+                return board[player['y']][player['x']]
