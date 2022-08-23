@@ -25,19 +25,8 @@ def main():
         engine.remove_player_from_board(board, player)
 
         key = util.key_pressed()
-        if key == 'q':
-            is_running = False
-        if key == 'i':
-            print('Opened inventory')
-        elif key == 'w':
-            player['y'] -= 1
-        elif key == 's':
-            player['y'] += 1
-        elif key == 'a':
-            player['x'] -= 1
-        elif key == 'd':
-            player['x'] += 1
-                             
+        engine.player_movement(key, board, player)
+    
         util.clear_screen()
 
 
