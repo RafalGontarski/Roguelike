@@ -2,24 +2,16 @@ import util
 import engine
 import ui
 
-width = 20
-height = 20
+width = 10
+height = 10
 
 def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-
-    Returns:
-    dictionary
-    '''
     player = {
         "player_icon" : "@",
-        "player_start_x" : 1,
-        "player_start_y" : 1,
+        "x" : 1,
+        "y" : 1,
         "player_health" : 5}
     return player
-
 
 def main():
     player = create_player()
@@ -30,12 +22,22 @@ def main():
     while is_running:
         engine.put_player_on_board(board, player)
         ui.display_board(board)
+        engine.remove_player_from_board(board, player)
 
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        else:
-            pass
+        if key == 'i':
+            print('Opened inventory')
+        elif key == 'w':
+            player['y'] -= 1
+        elif key == 's':
+            player['y'] += 1
+        elif key == 'a':
+            player['x'] -= 1
+        elif key == 'd':
+            player['x'] += 1
+                             
         util.clear_screen()
 
 
