@@ -1,6 +1,5 @@
 from time import sleep
 
-
 def create_board(width, height):
     board = [[' ' for x in range(height)] for y in range(width)]
     for i in range(len(board)):
@@ -9,9 +8,6 @@ def create_board(width, height):
         board[i][0] = '#'
         board[0][i] = '#'    
     return board
-
-def eat_bread():
-    pass
 
 def put_player_on_board(board, player):
     board[player["y"]][player["x"]] = player["player_icon"]
@@ -47,3 +43,14 @@ def player_movement(key, board, player):
             player['x'] += 1
             if board[player['y']][player['x']] in fields:
                 return board[player['y']][player['x']]
+
+def add_to_inventory(inventory, field, player):
+    if field == "*":
+        player['player health'] += 1
+    elif field == "^":
+        inventory.append("Helmet")
+    elif field == "/":
+        inventory.append("Sword")
+    elif field == "$":
+        inventory.append("Key")
+    return inventory, player

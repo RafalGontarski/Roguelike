@@ -15,6 +15,7 @@ def create_player():
     return player
 
 def main():
+    inventory = []
     player = create_player()
     board = engine.create_board(width, height)
     items = ['*', '/', '^', '$']
@@ -28,9 +29,8 @@ def main():
         key = util.key_pressed()
         field = engine.player_movement(key, board, player)
         if field in items:
-            pass
+            engine.add_to_inventory(field, inventory)
         util.clear_screen()
-
 
 if __name__ == '__main__':
     main()
