@@ -29,7 +29,7 @@ def main():
         key = util.key_pressed()
         field = engine.player_movement(key, board, player)
         if field in items:
-            engine.add_to_inventory(field, inventory)
+            engine.add_to_inventory(inventory, field, player)
         util.clear_screen()
 
 if __name__ == '__main__':
