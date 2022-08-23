@@ -1,4 +1,4 @@
-def display_board(board, player):
+def display_board(board,player,inventory):
     '''
     Displays complete game board on the screen
 
@@ -7,4 +7,6 @@ def display_board(board, player):
     '''
     for element in board:
         print(*element)
-    print(f"\nPlayer health is: {player['player_health']}")
+
+    print(f"\nInventory: {inventory}")
+    print(f"\nStatistics:\nHealth : {player['player_health']} \nPlayer Attack : {player['player_attack']}\nPlayer_defense : {player['player_defense']}")
