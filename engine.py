@@ -19,7 +19,7 @@ def remove_player_from_board(board, player):
     board[player['y']][player['x']] = ' '
 
 def player_movement(key, board, player):
-    fields = ['*', '/', '^', '$']
+    fields = [' ', '#']
     
     if key == 'q':
         exit()
@@ -28,22 +28,22 @@ def player_movement(key, board, player):
     elif key == 'w':
         if board[player['y']-1][player['x']] != '#':
             player['y'] -= 1
-            if board[player['y']][player['x']] in fields:
+            if board[player['y']][player['x']] not in fields:
                 return board[player['y']][player['x']]                
     elif key == 's':
         if board[player['y']+1][player['x']] != '#':
             player['y'] += 1
-            if board[player['y']][player['x']] in fields:
+            if board[player['y']][player['x']] not in fields:
                 return board[player['y']][player['x']]
     elif key == 'a':
         if board[player['y']][player['x']-1] != '#':
             player['x'] -= 1
-            if board[player['y']][player['x']] in fields:
+            if board[player['y']][player['x']] not in fields:
                 return board[player['y']][player['x']]
     elif key == 'd':
         if board[player['y']][player['x']+1] != '#':
             player['x'] += 1
-            if board[player['y']][player['x']] in fields:
+            if board[player['y']][player['x']] not in fields:
                 return board[player['y']][player['x']]
 
 def add_to_inventory(inventory, field, player):
@@ -51,10 +51,10 @@ def add_to_inventory(inventory, field, player):
         player['player_health'] += 10
     elif field == "^":
         inventory.append("Helmet")
-        player['player_defense'] += 10
+        player['player_defense'] += 3
     elif field == "/":
         inventory.append("Sword")
-        player['player_attack'] += 10
+        player['player_attack'] += 5
     elif field == "$":
         inventory.append("Key")
     return inventory, player
@@ -67,8 +67,8 @@ def create_enemy(position_list):
         "cpu_icon" : "m",
         "x" : random.choice(enemy_x_place),
         "y" : random.choice(enemy_y_place),
-        "cpu_health" : 5,
-        "attack_power": 1,
+        "cpu_health" : 8,
+        "attack_power": 7,
         "defence": 0}
     check_position(position_list,cpu_1)
     position_list.append((cpu_1["y"],cpu_1["x"]))
@@ -82,19 +82,19 @@ def create_enemy_2(position_list):
         "cpu2_icon" : "M",
         "x" : random.choice(enemy2_x_place),
         "y" : random.choice(enemy2_y_place),
-        "cpu2_health" : 10,
-        "attack_power": 2,
+        "cpu_health" : 10,
+        "attack_power": 8,
         "defence": 2}
     check_position(position_list,cpu_2)
     position_list.append((cpu_2["y"],cpu_2["x"]))
     return cpu_2
 
-def put_cpu2_on_board(board, cpu_2):
-    board[cpu_2["y"]][cpu_2["x"]] = cpu_2["cpu2_icon"]
-    return board
-
 def put_cpu1_on_board(board, cpu_1):
     board[cpu_1["y"]][cpu_1["x"]] = cpu_1["cpu_icon"]
+    return board
+
+def put_cpu2_on_board(board, cpu_2):
+    board[cpu_2["y"]][cpu_2["x"]] = cpu_2["cpu2_icon"]
     return board
 
 def create_bread(position_list):
@@ -122,7 +122,7 @@ def create_helmet(position_list):
         "helmet_icon" : "^",
         "x" : random.choice(x_place),
         "y" : random.choice(y_place),
-        "defence_add": 5}
+        "defence_add": 3}
     check_position(position_list,helmet)
     position_list.append((helmet["y"],helmet["x"]))
     return helmet
@@ -156,3 +156,9 @@ def check_position(position_list, object):
             object["x"] = random.choice(coordinates)
         else:
             return True
+
+def fight_with_NPC(NPC: str, player:str):
+    if player['player_attack'] - NPC['defence'] >0:
+        NPC['cpu_health'] = NPC['cpu_health'] - (player['player_attack'] - NPC['defence'])
+    if (NPC['attack_power'] - player['player_defense']) >= 0:
+        player['player_health'] = player['player_health'] - (NPC['attack_power'] - player['player_defense'])

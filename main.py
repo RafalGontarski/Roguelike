@@ -26,6 +26,8 @@ def main():
     helmet = engine.create_helmet(position_list)
     sword = engine.create_sword(position_list)
     board = engine.create_board(width, height)
+
+    mobs = ['m', 'M']
     items = ['*', '/', '^', '$']
     util.clear_screen()
     is_running = True
@@ -42,7 +44,16 @@ def main():
         key = util.key_pressed()
         field = engine.player_movement(key, board, player)
         if field in items:
-            engine.add_to_inventory(inventory, field, player)  
+            engine.add_to_inventory(inventory, field, player)
+        if field in mobs:
+            if field == 'm':
+                engine.fight_with_NPC(cpu_1, player)
+            elif field == 'M':
+                engine.fight_with_NPC(cpu_2, player)
+        if player['player_health'] <= 0:
+            print("You have died!")
+            sleep(3)
+            break
         util.clear_screen()
 
 if __name__ == '__main__':
