@@ -72,3 +72,52 @@ def mob_max_hp(cpu):
     cpu["cpu_health"] = cpu["max_health"]
     return cpu
 
+def create_boss(position_list):
+    
+    size_boss = 5
+    boss_x_place = [2,3,4,5,6,7,8]
+    boss_y_place = [2,3,4,5,6,7,8]
+
+    boss = {
+        "boss_icon" : 'B',
+        "x" : random.choice(boss_x_place),
+        "y" : random.choice(boss_y_place),
+        "boss_health" : 8,
+        "attack_power": 7,
+        "defence": 0
+        }
+    
+    size_boss = 5
+
+    for c in range(size_boss):
+        for r in range(size_boss):
+            print(boss['boss_icon'], end='')    
+        print()
+        
+    
+    
+    check_position(position_list,boss)
+    position_list.append((boss["y"],boss["x"]))
+    
+    return boss
+
+def put_boss_on_board(board, boss):
+    board[boss["y"]][boss["x"]] = boss["boss_icon"]
+    return board
+
+def boss_movement(board, boss):
+    xy = ['x', 'y']
+    random_xy = random.choice(xy)
+    sides = (+1, -1)
+    random_sides = random.choice(sides)
+    player_key = util.key_pressed()
+    if player_key:
+        boss[random_xy] = boss[random_xy] + random_sides
+    if player_key and board[boss['y'] - 1][boss['x']] != '#':
+        boss['y'] -=1
+    if player_key and board[boss['y'] + 1][boss['x']] != '#':
+        boss['y'] +=1
+    if player_key and board[boss['y']][boss['x'] - 1] != '#':
+        boss['x'] -=1
+    if player_key and board[boss['y']][boss['x'] + 1] != '#':
+        boss['x'] +=1
