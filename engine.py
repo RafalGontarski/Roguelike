@@ -81,70 +81,21 @@ def add_to_inventory(inventory, field, player):
         inventory.append("Key")
     return inventory, player
 
-def create_enemy_map1(position_list):
-    enemy_x_place = [2,3,4,5,6,7,8]
-    enemy_y_place = [2,3,4,5,6,7,8]
-
-    cpu_1 = {
-        "cpu_icon" : "m",
-        "x" : random.choice(enemy_x_place),
-        "y" : random.choice(enemy_y_place),
-        "cpu_health" : 8,
-        "attack_power": 7,
-        "defence": 0}
-    check_position(position_list,cpu_1)
-    position_list.append((cpu_1["y"],cpu_1["x"]))
-    return cpu_1
-
-def create_enemy_map2(position_list):
-    enemy_x_place = [2,3,4,5,6,7,8]
-    enemy_y_place = [2,3,4,5,6,7,8]
-
-    cpu_1 = {
-        "cpu_icon" : "m",
-        "x" : random.choice(enemy_x_place),
-        "y" : random.choice(enemy_y_place),
-        "cpu_health" : 8,
-        "attack_power": 7,
-        "defence": 0}
-    check_position(position_list,cpu_1)
-    position_list.append((cpu_1["y"],cpu_1["x"]))
-    return cpu_1
-
-def create_enemy_2_map1(position_list):
-    enemy2_x_place = [2,3,4,5,6,7,8]
-    enemy2_y_place = [2,3,4,5,6,7,8]
-
-    cpu_2 = {
-        "cpu2_icon" : "M",
-        "x" : random.choice(enemy2_x_place),
-        "y" : random.choice(enemy2_y_place),
-        "cpu_health" : 10,
-        "attack_power": 8,
-        "defence": 1}
-    check_position(position_list,cpu_2)
-    position_list.append((cpu_2["y"],cpu_2["x"]))
-    return cpu_2
-
-def put_cpu1_on_board(board, cpu_1):
-    board[cpu_1["y"]][cpu_1["x"]] = cpu_1["cpu_icon"]
-    return board
-
-def put_cpu2_on_board(board, cpu_2):
-    board[cpu_2["y"]][cpu_2["x"]] = cpu_2["cpu2_icon"]
-    return board
-
 def create_bread(position_list):
-    x_place = [2,3,4,5,6,7,8]
-    y_place = [2,3,4,5,6,7,8]
-
     bread = {
         "bread_icon" : "*",
-        "x" : random.choice(x_place),
-        "y" : random.choice(y_place),
-        "health": 5}
+        "x" : 7,
+        "y" : 23,}
     check_position(position_list,bread)
     position_list.append((bread["y"],bread["x"]))
+    return bread
+def bread_change_place(bread):
+    bread["x"] = 15
+    bread["y"] = 14
+    return bread
+def bread_change2_place(bread):
+    bread["x"] = 22
+    bread["y"] = 21
     return bread
 
 def put_bread_on_board(board, object):
@@ -152,13 +103,10 @@ def put_bread_on_board(board, object):
     return board
 
 def create_wooden_helmet(position_list):
-    x_place = [2,3,4,5,6,7,8]
-    y_place = [2,3,4,5,6,7,8]
-
     wooden_helmet = {
         "wooden_helmet_icon" : "<",
-        "x" : random.choice(x_place),
-        "y" : random.choice(y_place),}
+        "x" : 16,
+        "y" : 9,}
     check_position(position_list,wooden_helmet)
     position_list.append((wooden_helmet["y"],wooden_helmet["x"]))
     return wooden_helmet
@@ -199,13 +147,12 @@ def put_helmet3_on_board(board, object):
     return board
 
 def create_sword(position_list):
-    x_place = [2,3,4,5,6,7,8]
-    y_place = [2,3,4,5,6,7,8]
+
 
     sword = {
         "sword_icon" : "/",
-        "x" : random.choice(x_place),
-        "y" : random.choice(y_place),
+        "x" : 23,
+        "y" : 2,
         "attack_add": 5}
     check_position(position_list,sword)
     position_list.append((sword["y"],sword["x"]))
@@ -216,7 +163,7 @@ def put_sword_on_board(board, object):
     return board
 
 def check_position(position_list, object):
-    coordinates = [2,3,4,5,6,7,8]
+    coordinates = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     while True:
         if (object["y"],object["x"]) in position_list:
             object["y"] = random.choice(coordinates)

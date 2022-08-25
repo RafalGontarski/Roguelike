@@ -2,6 +2,27 @@ import engine
 import ui
 import util
 
+def board1_walls(board):
+    engine.create_vertical_wall(board,1,2,10)
+    engine.create_horizontal_wall(board,1,14,13)
+    engine.create_horizontal_wall(board,15,4,24)
+    engine.create_horizontal_wall(board,2,22,24)
+    return board
+
+def board2_walls(board):
+    engine.create_horizontal_wall(board, 1, 2, 10)
+    engine.create_horizontal_wall(board, 10, 4,24)
+    engine.create_horizontal_wall(board, 1, 6, 10)
+    engine.create_horizontal_wall(board, 10, 8, 24)
+    engine.create_horizontal_wall(board, 1, 10, 10)
+    engine.create_horizontal_wall(board, 10, 12, 24)
+    engine.create_horizontal_wall(board, 1, 14, 10)
+    engine.create_horizontal_wall(board, 10, 16, 24)
+    engine.create_horizontal_wall(board, 1, 18, 10)
+    engine.create_horizontal_wall(board, 10, 20, 24)
+
+
+
 
 def board3_walls(board):
     engine.create_vertical_wall(board,1,2,10)

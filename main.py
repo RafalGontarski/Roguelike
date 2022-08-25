@@ -2,7 +2,7 @@ from time import sleep
 import util
 import engine
 import ui
-import walls
+import walls, mobs
 
 width = 25
 height = 25
@@ -50,27 +50,33 @@ def main():
     inventory = []
     position_list = []
     player = create_player()
-    cpu_1 = engine.create_enemy_map1(position_list)
-    cpu_2 = engine.create_enemy_2_map1(position_list)
+    cpu_1 = mobs.create_enemy_map1(position_list)
+    cpu_2 = mobs.create_enemy2_map1(position_list)
+    cpu_3 = mobs.create_enemy3_map1(position_list)
+    cpu_4 = mobs.create_enemy4_map1(position_list)
+
     bread = engine.create_bread(position_list)
     wooden_helmet = engine.create_wooden_helmet(position_list)
     sword = engine.create_sword(position_list)
     board = engine.create_board(width, height)
-    board[2][1] = "O"
-    engine.create_vertical_wall(board, 1, 5, 10)
-    engine.create_horizontal_wall(board, 5, 12, 18)
+
+    
     board2 =  engine.create_board(width, height)
-    engine.create_horizontal_wall(board2, 1, 5, 10)
     board3 = engine.create_board(width, height)
     board2[3][1] = "O"
     board3 = engine.create_board(width, height)
+    walls.board1_walls(board)
+    walls.board2_walls(board2)
     walls.board3_walls(board3)
+    mobs.put_cpu1_on_board(board,cpu_1)
+    mobs.put_cpu2_on_board(board,cpu_2)
+    mobs.put_cpu3_on_board(board,cpu_3)
+    mobs.put_cpu4_on_board(board,cpu_4)
 
     using_map = board
 
-    items = ['/','*','$','<','>','^','m','M', 'O']
-    engine.put_cpu1_on_board(board,cpu_1)
-    engine.put_cpu2_on_board(board, cpu_2)
+    items = ['/','*','$','<','>','^','m','M', 'O', 'g','G']
+    
     engine.put_bread_on_board(board, bread)
     engine.put_helmet_on_board(board, wooden_helmet)
     engine.put_sword_on_board(board, sword)
@@ -90,16 +96,39 @@ def main():
                 engine.fight_with_NPC(cpu_1, player)
                 engine.player_death(player)
         elif field == 'M':
-            while cpu_2['cpu_health'] > 0:
-                engine.fight_with_NPC(cpu_2, player)
+            while cpu_4['cpu_health'] > 0:
+                engine.fight_with_NPC(cpu_4, player)
                 engine.player_death(player)         
             else:
                 using_map[1][1] = 'O'
+        elif field == 'g':
+            while cpu_2['cpu_health'] > 0:
+                engine.fight_with_NPC(cpu_2, player)
+                engine.player_death(player) 
+        elif field == 'G':
+            while cpu_3['cpu_health'] > 0:
+                engine.fight_with_NPC(cpu_3, player)
+                engine.player_death(player) 
         if field == 'O':
+            player["x"] = 1
+            player["y"] = 1
+            
             if using_map == board:
                 using_map = board2
+                mobs.mob_max_hp(cpu_1)
+                mobs.mob_max_hp(cpu_2)
+                mobs.mob_max_hp(cpu_3)
+                mobs.mob_max_hp(cpu_4)
+                engine.bread_change_place(bread)
+                engine.put_bread_on_board(board2,bread)
             elif using_map == board2:
                 using_map = board3
+                mobs.mob_max_hp(cpu_1)
+                mobs.mob_max_hp(cpu_2)
+                mobs.mob_max_hp(cpu_3)
+                mobs.mob_max_hp(cpu_4)
+                engine.bread_change2_place(bread)
+                engine.put_bread_on_board(board3,bread)
         util.clear_screen()
 
 if __name__ == '__main__':
