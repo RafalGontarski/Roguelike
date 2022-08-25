@@ -81,7 +81,7 @@ def add_to_inventory(inventory, field, player):
         inventory.append("Key")
     return inventory, player
 
-def create_enemy(position_list):
+def create_enemy_map1(position_list):
     enemy_x_place = [2,3,4,5,6,7,8]
     enemy_y_place = [2,3,4,5,6,7,8]
 
@@ -96,7 +96,22 @@ def create_enemy(position_list):
     position_list.append((cpu_1["y"],cpu_1["x"]))
     return cpu_1
 
-def create_enemy_2(position_list):
+def create_enemy_map2(position_list):
+    enemy_x_place = [2,3,4,5,6,7,8]
+    enemy_y_place = [2,3,4,5,6,7,8]
+
+    cpu_1 = {
+        "cpu_icon" : "m",
+        "x" : random.choice(enemy_x_place),
+        "y" : random.choice(enemy_y_place),
+        "cpu_health" : 8,
+        "attack_power": 7,
+        "defence": 0}
+    check_position(position_list,cpu_1)
+    position_list.append((cpu_1["y"],cpu_1["x"]))
+    return cpu_1
+
+def create_enemy_2_map1(position_list):
     enemy2_x_place = [2,3,4,5,6,7,8]
     enemy2_y_place = [2,3,4,5,6,7,8]
 

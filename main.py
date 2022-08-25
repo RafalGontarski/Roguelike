@@ -2,6 +2,7 @@ from time import sleep
 import util
 import engine
 import ui
+import walls
 
 width = 25
 height = 25
@@ -49,28 +50,32 @@ def main():
     inventory = []
     position_list = []
     player = create_player()
-    cpu_1 = engine.create_enemy(position_list)
-    cpu_2 = engine.create_enemy_2(position_list)
+    cpu_1 = engine.create_enemy_map1(position_list)
+    cpu_2 = engine.create_enemy_2_map1(position_list)
     bread = engine.create_bread(position_list)
     wooden_helmet = engine.create_wooden_helmet(position_list)
     sword = engine.create_sword(position_list)
     board = engine.create_board(width, height)
+    board[2][1] = "O"
     engine.create_vertical_wall(board, 1, 5, 10)
     engine.create_horizontal_wall(board, 5, 12, 18)
     board2 =  engine.create_board(width, height)
     engine.create_horizontal_wall(board2, 1, 5, 10)
     board3 = engine.create_board(width, height)
+    board2[3][1] = "O"
+    board3 = engine.create_board(width, height)
+    walls.board3_walls(board3)
 
     using_map = board
 
     items = ['/','*','$','<','>','^','m','M', 'O']
-    util.clear_screen()
-    is_running = True
     engine.put_cpu1_on_board(board,cpu_1)
     engine.put_cpu2_on_board(board, cpu_2)
     engine.put_bread_on_board(board, bread)
     engine.put_helmet_on_board(board, wooden_helmet)
     engine.put_sword_on_board(board, sword)
+    util.clear_screen()
+    is_running = True
     while is_running:
         engine.put_player_on_board(using_map, player)
         ui.display_board(using_map,player,inventory)
