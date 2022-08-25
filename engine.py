@@ -11,12 +11,32 @@ def create_board(width, height):
 
     return board
 
+def create_vertical_wall(board, x_start, y, x_end):
+    '''
+    x = width of map
+    y = height of map
+    '''
+    while x_end != x_start:
+        board[x_start][y] = '#'
+        x_start += 1 
+
+def create_horizontal_wall(board, y_start, x, y_end):
+    while y_end != y_start:
+        board[x][y_start] = '#'
+        y_start += 1 
+
 def put_player_on_board(board, player):
     board[player["y"]][player["x"]] = player["player_icon"]
     return board
 
 def remove_player_from_board(board, player):
     board[player['y']][player['x']] = ' '
+
+def player_death(player):
+    if player['player_health'] <= 0:
+        print('You have died!')
+        sleep(5)
+        exit()
 
 def player_movement(key, board, player,items):
     
@@ -85,8 +105,8 @@ def create_enemy_2(position_list):
         "x" : random.choice(enemy2_x_place),
         "y" : random.choice(enemy2_y_place),
         "cpu_health" : 10,
-        "attack_power": 20,
-        "defence": 2}
+        "attack_power": 8,
+        "defence": 1}
     check_position(position_list,cpu_2)
     position_list.append((cpu_2["y"],cpu_2["x"]))
     return cpu_2

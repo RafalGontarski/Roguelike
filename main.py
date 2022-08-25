@@ -3,8 +3,8 @@ import util
 import engine
 import ui
 
-width = 10
-height = 10
+width = 25
+height = 25
 
 def create_player():
     player = {
@@ -55,9 +55,15 @@ def main():
     wooden_helmet = engine.create_wooden_helmet(position_list)
     sword = engine.create_sword(position_list)
     board = engine.create_board(width, height)
+    engine.create_vertical_wall(board, 1, 5, 10)
+    engine.create_horizontal_wall(board, 5, 12, 18)
+    board2 =  engine.create_board(width, height)
+    engine.create_horizontal_wall(board2, 1, 5, 10)
+    board3 = engine.create_board(width, height)
 
-    mobs = ['m', 'M']
-    items = ['/','*','$','<','>','^','m','M']
+    using_map = board
+
+    items = ['/','*','$','<','>','^','m','M', 'O']
     util.clear_screen()
     is_running = True
     engine.put_cpu1_on_board(board,cpu_1)
@@ -66,22 +72,29 @@ def main():
     engine.put_helmet_on_board(board, wooden_helmet)
     engine.put_sword_on_board(board, sword)
     while is_running:
-        engine.put_player_on_board(board, player)
-        ui.display_board(board,player,inventory)
-        engine.remove_player_from_board(board, player)
+        engine.put_player_on_board(using_map, player)
+        ui.display_board(using_map,player,inventory)
+        engine.remove_player_from_board(using_map, player)
 
         key = util.key_pressed()
-        field = engine.player_movement(key, board, player,items)
+        field = engine.player_movement(key, using_map, player,items)
         if field in items:
             engine.add_to_inventory(inventory, field, player)
         if field == 'm':
+            while cpu_1['cpu_health'] > 0:
                 engine.fight_with_NPC(cpu_1, player)
+                engine.player_death(player)
         elif field == 'M':
+            while cpu_2['cpu_health'] > 0:
                 engine.fight_with_NPC(cpu_2, player)
-        if player['player_health'] <= 0:
-            print("You have died!")
-            sleep(3)
-            break
+                engine.player_death(player)         
+            else:
+                using_map[1][1] = 'O'
+        if field == 'O':
+            if using_map == board:
+                using_map = board2
+            elif using_map == board2:
+                using_map = board3
         util.clear_screen()
 
 if __name__ == '__main__':
