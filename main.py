@@ -63,8 +63,9 @@ def main():
     
     board2 =  engine.create_board(width, height)
     board3 = engine.create_board(width, height)
+    board4 = engine.create_board(width, height)
     board2[3][1] = "O"
-    board3 = engine.create_board(width, height)
+    board3[2][10] = "O"
     walls.board1_walls(board)
     walls.board2_walls(board2)
     walls.board3_walls(board3)
@@ -75,7 +76,7 @@ def main():
 
     using_map = board
 
-    items = ['/','*','$','<','>','^','m','M', 'O', 'g','G']
+    items = ['/','*','$','<','>','^','m','M', 'O', 'g','G',' ',']']
     
     engine.put_bread_on_board(board, bread)
     engine.put_helmet_on_board(board, wooden_helmet)
@@ -88,9 +89,15 @@ def main():
         engine.remove_player_from_board(using_map, player)
 
         key = util.key_pressed()
-        field = engine.player_movement(key, using_map, player,items)
+        field = engine.player_movement(key, using_map, player,items,inventory)
         if field in items:
             engine.add_to_inventory(inventory, field, player)
+        if using_map == board3 and field == ' ' and player["x"] == 23 and player["y"] == 1:
+            field = '^'
+            engine.add_to_inventory(inventory,field,player)
+        if using_map == board2 and field == ' ' and player["x"] == 2 and player["y"] == 23:
+            field = ']'
+            engine.add_to_inventory(inventory,field,player)
         if field == 'm':
             while cpu_1['cpu_health'] > 0:
                 engine.fight_with_NPC(cpu_1, player)
@@ -115,10 +122,6 @@ def main():
             
             if using_map == board:
                 using_map = board2
-                mobs.mob_max_hp(cpu_1)
-                mobs.mob_max_hp(cpu_2)
-                mobs.mob_max_hp(cpu_3)
-                mobs.mob_max_hp(cpu_4)
                 engine.bread_change_place(bread)
                 engine.put_bread_on_board(board2,bread)
             elif using_map == board2:
@@ -129,6 +132,17 @@ def main():
                 mobs.mob_max_hp(cpu_4)
                 engine.bread_change2_place(bread)
                 engine.put_bread_on_board(board3,bread)
+            elif using_map == board3:
+                using_map = board4
+                if "magic_sword" in inventory and "enchanted_helmet" in inventory:
+                    print(" -----SOME KIND OF MYSTERIOUS POWER SURROUNDS YOU ")
+                    sleep(2)
+                    print(" ----YOU ARE GETTING STRONGER")
+                    sleep(2)
+                    player["player_health"] = 200
+                engine.bread_change_place(bread)
+                engine.put_bread_on_board(board2,bread)
+
         util.clear_screen()
 
 if __name__ == '__main__':

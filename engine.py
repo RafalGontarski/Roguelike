@@ -38,13 +38,23 @@ def player_death(player):
         sleep(5)
         exit()
 
-def player_movement(key, board, player,items):
+def player_movement(key, board, player,items,inventory):
     
     
     if key == 'q':
-        exit()
+        print("Quest:\n- YOU HAVE TO FIND MAGIC EQUIPMENT TO DEFEAT THE SCARY MONSTER!")
+        sleep(3)
+    if key == 'l':
+        print("The Full Legend:\n- Ble ble ble")
+        sleep(3)
     if key == 'i':
         print('Opened inventory')
+        for i in inventory:
+            print("-",i)
+        sleep(4)
+    if key == 'p':
+        print(f"\nStatistics:\nHealth : {player['player_health']} \nPlayer Attack : {player['player_attack']}\nPlayer_defense : {player['player_defense']}")
+        sleep(4)
     elif key == 'w':
         if board[player['y']-1][player['x']] != '#':
             player['y'] -= 1
@@ -77,6 +87,8 @@ def add_to_inventory(inventory, field, player):
         inventory_exchange(player,inventory,item_value,"enchanted_helmet")
     elif field == "/":
         inventory_exchange(player,inventory,item_value,"wooden_sword")
+    elif field == "]":
+        inventory_exchange(player,inventory,item_value,"magic_sword")
     elif field == "$":
         inventory.append("Key")
     return inventory, player
@@ -147,8 +159,6 @@ def put_helmet3_on_board(board, object):
     return board
 
 def create_sword(position_list):
-
-
     sword = {
         "sword_icon" : "/",
         "x" : 23,
@@ -181,25 +191,25 @@ def fight_with_NPC(NPC: str, player:str):
 def inventory_value():
     item_value = {
         "wooden_sword" : 2,
-        "steel_sword" : 4,
-        "bow" : 5,
+        "steel_sword" : 5,
+        "magic_sword" : 195,
         "wooden_helmet" : 2,
-        "steel_helmet" : 4,
-        "enchanted_helmet" : 6,
+        "steel_helmet" : 6,
+        "enchanted_helmet" : 192,
         "wooden_armor" : 2,
         "steel_armor" : 4,
         "diamond_armor" : 6,
         "shield" : 4,
-        "Magic Scroll" : 2,
-        "Water Magic Scroll" : 4,
-        "Fire Magic Scroll" : 6,
-        "heal_potion" : 5,
-        "strength_potion" : 5,
-        "power_potion" : 5,
+        "Magic Scroll" : 3,
+        "Water Magic Scroll" : 6,
+        "Fire Magic Scroll" : 9,
+        "heal_potion" : 10,
+        "strength_potion" : 20,
+        "power_potion" : 30,
         }
     return item_value
 item_value = inventory_value()
-sword_items = ["wooden_sword","steel_sword","bow"]
+sword_items = ["wooden_sword","steel_sword","bow","magic_sword"]
 helmet_items = ["wooden_helmet","steel_helmet","enchanted_helmet"]
 armor_items = ["wooden_armor","steel_armor","diamond_armor"]
 shield_items = ["shield"]
@@ -210,16 +220,18 @@ potion_items = ["heal_potion","strength_potion","power_potion","death_potion"]
 def inventory_exchange(player,inventory:list,item_value,item):
     if item in sword_items:
         if player["equipped_sword"] == "":
-            print(item_value[item])
             player["equipped_sword"] = item
             player["player_attack"] += item_value[item]
-            inventory.append(item)
+            if item not in inventory:
+                inventory.append(item)
             return player
         else:
             player["player_attack"] -= item_value[player["equipped_sword"]]
+            inventory.remove(player["equipped_sword"])
             player["player_attack"] += item_value[item]
             player["equipped_sword"] = item
-            inventory.append(item)
+            if item not in inventory:
+                inventory.append(item)
             return player
     elif item in helmet_items:
         if player["equipped_helmet"] == "":
@@ -227,13 +239,16 @@ def inventory_exchange(player,inventory:list,item_value,item):
             print(item)
             player["equipped_helmet"] = item
             player["player_defense"] += item_value[item]
-            inventory.append(item)
+            if item not in inventory:
+                inventory.append(item)
             return player
         else:
             player["player_defense"] -= item_value[player["equipped_helmet"]]
+            inventory.remove(player["equipped_helmet"])
             player["player_defense"] += item_value[item]
             player["equipped_helmet"] = item
-            inventory.append(item)
+            if item not in inventory:
+                inventory.append(item)
             return player
     elif item in armor_items:
         if player["equipped_armor"] == "":
@@ -276,14 +291,14 @@ def inventory_exchange(player,inventory:list,item_value,item):
             player["player_health"] += 10
             return player
         elif item == "strength_potion":
-            player["player_health"] += 2
+            player["player_health"] += 20
             player["player_attack"] += 5
             player["player_defense"] += 5
             return player
         elif item == "power_potion":
-            player["player_health"] += 8
-            player["player_attack"] += 2
-            player["player_defense"] += 2
+            player["player_health"] += 30
+            player["player_attack"] += 10
+            player["player_defense"] += 10
             return player
         elif item == "death_potion":
             player["player_health"] = 0
