@@ -1,5 +1,6 @@
 from time import sleep
 import random
+import time
 
 def create_board(width, height):
     board = [[' ' for x in range(height)] for y in range(width)]
@@ -44,9 +45,18 @@ def player_movement(key, board, player,items,inventory):
     if key == 'q':
         print("Quest:\n- YOU HAVE TO FIND MAGIC EQUIPMENT TO DEFEAT THE SCARY MONSTER!")
         sleep(3)
+    if key == 't':
+        cheats = input("Podaj Cheata: ")
+        if cheats == "portal":
+            board[1][1] = "O"
+        if cheats == "quest":
+            player["player_health"] = 200
+            player['player_attack'] += 200
+            player['player_defense'] += 200
+        sleep(2)
     if key == 'l':
-        print("The Full Legend:\n- Ble ble ble")
-        sleep(3)
+        print("The Full Legend:\n O - PORTAL DO NEXT LVL\n / - drewniany miecz\n ) - stalowy miecz\n & - wskazówka\n < - drewniany hełm\n > - stalowy hełm\n = - Kolczatka/drzwi\n ! - mikstura życia\n ? - tajemnicza mikstura\n Magiczny miecz = Nieznane | Zaklęty hełm = nieznane")
+        sleep(6)
     if key == 'i':
         print('Opened inventory')
         for i in inventory:
@@ -87,11 +97,35 @@ def add_to_inventory(inventory, field, player):
         inventory_exchange(player,inventory,item_value,"enchanted_helmet")
     elif field == "/":
         inventory_exchange(player,inventory,item_value,"wooden_sword")
+    elif field == ")":
+        inventory_exchange(player,inventory,item_value,"steel_sword") 
     elif field == "]":
         inventory_exchange(player,inventory,item_value,"magic_sword")
     elif field == "$":
         inventory.append("Key")
+    elif field == "?":
+        inventory_exchange(player,inventory,item_value,"death_potion")
+    elif field == "!":
+        inventory_exchange(player,inventory,item_value,"power_potion")
+    elif field == '&':
+        print("----------------------------THE ARTEFACT IS CLOSE------------------------")
+        sleep(2)
     return inventory, player
+
+
+
+
+def create_potion(board):
+    board[22][3] = "?"
+    return board
+def create_potion2(board):
+    board[21][4] = "!"
+    return board
+
+def potion_placing(board):
+    create_potion(board)
+    create_potion2(board)
+    return board
 
 def create_bread(position_list):
     bread = {
@@ -124,13 +158,10 @@ def create_wooden_helmet(position_list):
     return wooden_helmet
 
 def create_steel_helmet(position_list):
-    x_place = [2,3,4,5,6,7,8]
-    y_place = [2,3,4,5,6,7,8]
-
     steel_helmet = {
         "steel_helmet_icon" : ">",
-        "x" : random.choice(x_place),
-        "y" : random.choice(y_place)}
+        "x" : 18,
+        "y" : 18}
     check_position(position_list,steel_helmet)
     position_list.append((steel_helmet["y"],steel_helmet["x"]))
     return steel_helmet
@@ -168,6 +199,16 @@ def create_sword(position_list):
     position_list.append((sword["y"],sword["x"]))
     return sword
 
+def create_sword2(position_list):
+    steel_sword = {
+        "sword_icon" : ")",
+        "x" : 20,
+        "y" : 2,
+        "attack_add": 5}
+    check_position(position_list,steel_sword)
+    position_list.append((steel_sword["y"],steel_sword["x"]))
+    return steel_sword
+
 def put_sword_on_board(board, object):
     board[object["y"]][object["x"]] = object["sword_icon"]
     return board
@@ -181,21 +222,28 @@ def check_position(position_list, object):
         else:
             return True
 
-def fight_with_NPC(NPC: str, player:str):
+def fight_with_NPC(NPC, player):
+    dealed_dmg = ()
+    gained_dmg = ()
     if player['player_attack'] - NPC['defence'] >0:
         NPC['cpu_health'] = NPC['cpu_health'] - (player['player_attack'] - NPC['defence'])
+        dealed_dmg = player['player_attack'] - NPC['defence']
+        print(f" YOU DEALED: {dealed_dmg} DAMEGE")
+        sleep(1)
     if (NPC['attack_power'] - player['player_defense']) >= 0:
         player['player_health'] = player['player_health'] - (NPC['attack_power'] - player['player_defense'])
-
+        gained_dmg = NPC['attack_power'] - player['player_defense']
+        print(f" YOU GAINED: {gained_dmg} DAMAGE")
+        sleep(1)
 
 def inventory_value():
     item_value = {
         "wooden_sword" : 2,
         "steel_sword" : 5,
-        "magic_sword" : 195,
+        "magic_sword" : 180,
         "wooden_helmet" : 2,
         "steel_helmet" : 6,
-        "enchanted_helmet" : 192,
+        "enchanted_helmet" : 100,
         "wooden_armor" : 2,
         "steel_armor" : 4,
         "diamond_armor" : 6,
@@ -298,8 +346,9 @@ def inventory_exchange(player,inventory:list,item_value,item):
         elif item == "power_potion":
             player["player_health"] += 30
             player["player_attack"] += 10
-            player["player_defense"] += 10
+            player["player_defense"] += 20
             return player
         elif item == "death_potion":
             player["player_health"] = 0
+            player_death(player)
             return player

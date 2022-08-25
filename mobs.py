@@ -1,5 +1,6 @@
 import engine
 import random
+import util
 def create_enemy_map1(position_list):
     cpu_1 = {
         "cpu1_icon" : "m",
@@ -12,6 +13,31 @@ def create_enemy_map1(position_list):
     engine.check_position(position_list,cpu_1)
     position_list.append((cpu_1["y"],cpu_1["x"]))
     return cpu_1
+def enemy1_change_position(cpu_1):
+    cpu_1["x"]= 1
+    cpu_1["y"]= 9
+    cpu_1["cpu_health"] = 20
+    cpu_1["attack_power"] = 7
+    return cpu_1
+def enemy2_change_position(cpu_2):
+    cpu_2["x"]= 23
+    cpu_2["y"]= 20
+    cpu_2["cpu_health"] = 13
+    cpu_2["attack_power"] = 5
+    return cpu_2
+def enemy3_change_position(cpu_3):
+    cpu_3["x"]= 3
+    cpu_3["y"]= 21
+    cpu_3["cpu_health"] = 20
+    cpu_3["attack_power"] = 5
+    return cpu_3
+def enemy4_change_position(cpu_4):
+    cpu_4["x"]= 1
+    cpu_4["y"]= 9
+    cpu_4["cpu_health"] = 20
+    cpu_4["attack_power"] = 7
+    cpu_4["defense"] = 7
+    return cpu_4
 
 def put_cpu1_on_board(board, cpu_1):
     board[cpu_1["y"]][cpu_1["x"]] = cpu_1["cpu1_icon"]
@@ -75,16 +101,16 @@ def mob_max_hp(cpu):
 def create_boss(position_list):
     
     size_boss = 5
-    boss_x_place = [2,3,4,5,6,7,8]
-    boss_y_place = [2,3,4,5,6,7,8]
+    boss_x_place = [7,8]
+    boss_y_place = [7,8]
 
     boss = {
         "boss_icon" : 'B',
         "x" : random.choice(boss_x_place),
         "y" : random.choice(boss_y_place),
-        "boss_health" : 8,
-        "attack_power": 7,
-        "defence": 0
+        "cpu_health" : 200,
+        "attack_power": 155,
+        "defence": 100
         }
     
     size_boss = 5
@@ -96,7 +122,7 @@ def create_boss(position_list):
         
     
     
-    check_position(position_list,boss)
+    engine.check_position(position_list,boss)
     position_list.append((boss["y"],boss["x"]))
     
     return boss
@@ -105,19 +131,37 @@ def put_boss_on_board(board, boss):
     board[boss["y"]][boss["x"]] = boss["boss_icon"]
     return board
 
-def boss_movement(board, boss):
-    xy = ['x', 'y']
-    random_xy = random.choice(xy)
-    sides = (+1, -1)
-    random_sides = random.choice(sides)
-    player_key = util.key_pressed()
-    if player_key:
-        boss[random_xy] = boss[random_xy] + random_sides
-    if player_key and board[boss['y'] - 1][boss['x']] != '#':
-        boss['y'] -=1
-    if player_key and board[boss['y'] + 1][boss['x']] != '#':
-        boss['y'] +=1
-    if player_key and board[boss['y']][boss['x'] - 1] != '#':
-        boss['x'] -=1
-    if player_key and board[boss['y']][boss['x'] + 1] != '#':
-        boss['x'] +=1
+def boss_movement(board, boss,keys):
+     
+    if keys == "w":
+        if board[boss['y'] - 1][boss['x']] != '#':
+            boss['y'] -=1
+    elif keys == "a":
+        if board[boss['y'] + 1][boss['x']] != '#':
+            boss['y'] +=1
+    elif keys == "s":
+        if board[boss['y']][boss['x'] - 1] != '#':
+            boss['x'] -=1
+    elif keys == "d":
+        if board[boss['y']][boss['x'] + 1] != '#':
+            boss['x'] +=1
+    
+   
+    return board,boss
+
+
+def create_vertical_boss(board, x_start, y, x_end):
+
+    while x_end != x_start:
+        board[x_start][y] = 'B'
+        x_start += 1
+    
+def create_horizontal_boss(board, y_start, x, y_end):
+    while y_end != y_start:
+        board[x][y_start] = 'B'
+        y_start += 1
+
+def create_empty_boss(board, y_start, x, y_end):
+    while y_end != y_start:
+        board[x][y_start] = ' '
+        y_start += 1

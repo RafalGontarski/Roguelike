@@ -1,6 +1,7 @@
-import engine
+import engine,mobs
 import ui
 import util
+import time
 
 def board1_walls(board):
     engine.create_vertical_wall(board,1,2,10)
@@ -53,4 +54,20 @@ def board3_walls(board):
     engine.create_horizontal_wall(board,1,19,12)
     return board
 
+def board4_boss(board):
+    mobs.create_horizontal_boss(board,10,15,15)
+    mobs.create_horizontal_boss(board,10,16,15)
+    mobs.create_horizontal_boss(board,10,17,15)
+    mobs.create_horizontal_boss(board,10,18,15)
+    mobs.create_horizontal_boss(board,10,19,15)
+    board[16][11] = ' '
+    board[16][13] = ' '
+    board[18][12] = ' '
+    return board
 
+def clear_and_win():
+    print("================ YOU WON AGAINST SCARY MONSTER !==============")
+    time.sleep(2)
+    print("==================GAME OVER, THANK YOU FOR GAME!==============")
+    time.sleep(1)
+    exit()
