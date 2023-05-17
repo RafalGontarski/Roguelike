@@ -1,8 +1,9 @@
 # Roguelike
 Simple Roguelike game in Python.
 
+![Nagranie z ekranu 2023-05-17 o 16 28 29](https://github.com/RafalGontarski/Roguelike/assets/106514250/644c97a9-c93e-4990-8c58-51a4f3eb9166)
 
-![Nagranie_z_ekranu_2023-05-17_o_16_28_29_AdobeExpress (1)](https://github.com/RafalGontarski/Roguelike/assets/106514250/8d21b186-789b-48f5-a2c2-a993d11d3da1)
+
 
 
 
