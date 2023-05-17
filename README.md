@@ -1,4 +1,8 @@
 # Roguelike
 Simple Roguelike game in Python.
 
-![work3](https://github.com/RafalGontarski/Roguelike/assets/106514250/3dd9d666-12dc-4dd2-86b3-8871f527ba93)
+
+
+
+https://github.com/RafalGontarski/Roguelike/assets/106514250/218e5ad7-9974-4bdb-8f8a-976a0b21f62e
+
